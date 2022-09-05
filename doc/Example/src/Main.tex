@@ -1,0 +1,82 @@
+% Copyright (C) 2022 Anton Rodomanov
+%
+% This file is part of the `LabelNamespaces` package.
+%
+% You may distribute and/or modify this code under the conditions
+% of the LaTeX Project Public License, version 1.3c or any later version.
+
+\documentclass{article}
+
+\usepackage{lipsum}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{LabelNamespaces}
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\begin{document}
+  First, let us recall the following important property of real multiplication.
+
+  \begin{lemma}\label{th:MultplicationProperty}
+    For any real numbers $a, b$ and $t \geq 0$, we have
+    \[
+      a \leq b
+      \qquad \implies \qquad
+      t a \leq t b.
+    \]
+  \end{lemma}
+
+  Using the above property, we can easily prove the main result.
+
+  \begin{theorem}\label{th:MainTheorem}
+    \UsingNamespace{MainTheorem}
+
+    Let $(a_k)_{k = 0}^\infty$ be a nonnegative sequence such that
+    \begin{equation}\LocalLabel{eq:RecurrenceRelation}
+      a_{k + 1} \leq q a_k,
+    \end{equation}
+    for all $k \geq 0$, where $q \in (0, 1)$. Then, for all $k \geq 0$, we have
+    \begin{equation}\LocalLabel{eq:ExplicitRate}
+      a_k \leq q^k a_0.
+    \end{equation}
+  \end{theorem}
+
+  \begin{proof}
+    \UsingNestedNamespace{MainTheorem}{Proof}
+
+    Let us prove \cref{\MasterName{eq:ExplicitRate}} by induction on~$k$.
+
+    Clearly, \cref{\MasterName{eq:ExplicitRate}} is valid for $k = 0$
+    since $q^0 = 1$.
+
+    Now suppose that \cref{\MasterName{eq:ExplicitRate}} has already been proved
+    for some index~$k \geq 0$. Combining
+    \cref{th:MultplicationProperty,\MasterName{eq:ExplicitRate}},
+    we obtain
+    \begin{equation}\LocalLabel{eq:PreliminaryStep}
+      q a_k \leq q (q^k a_0) = q^{k + 1} a_0.
+    \end{equation}
+    Putting together
+    \cref{\MasterName{eq:RecurrenceRelation},\LocalName{eq:PreliminaryStep}},
+    we get
+    \[
+      a_{k + 1} \leq q a_k \leq q^{k + 1} a_0.
+    \]
+    This is exactly \cref{\MasterName{eq:ExplicitRate}} for index~$k + 1$.
+  \end{proof}
+
+  \begin{remark}
+    \label{th:MinorRemark}
+
+    According to \cref{MainTheorem::eq:ExplicitRate},
+    the sequence~$(a_k)_{k = 0}^{\infty}$ is bounded from above
+    by a geometric progression. Also, note that, in
+    \cref{MainTheorem::Proof::eq:PreliminaryStep}, we have implicitly used the
+    associativity of real multiplication: $a (b c) = (a b) c$.
+  \end{remark}
+\end{document}

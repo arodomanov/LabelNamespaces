@@ -1,0 +1,26 @@
+% Copyright (C) 2022 Anton Rodomanov
+%
+% This file is part of the `LabelNamespaces` package.
+%
+% You may distribute and/or modify this code under the conditions
+% of the LaTeX Project Public License, version 1.3c or any later version.
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{LabelNamespaces}[
+  2022/09/05 v0.1 Very basic namespaces for labels
+]
+
+\newcommand{\CurrentNamespace}{}
+\newcommand{\UsingNamespace}[1]{\renewcommand{\CurrentNamespace}{#1}}
+\newcommand{\LocalName}[1]{\CurrentNamespace::#1}
+
+\newcommand{\CurrentMasterNamespace}{}
+\newcommand{\UsingMasterNamespace}[1]{\renewcommand{\CurrentMasterNamespace}{#1}}
+\newcommand{\MasterName}[1]{\CurrentMasterNamespace::#1}
+
+\newcommand{\UsingNestedNamespace}[2]{
+  \UsingNamespace{#1::#2}
+  \UsingMasterNamespace{#1}
+}
+
+\newcommand{\LocalLabel}[1]{\label{\LocalName{#1}}}
